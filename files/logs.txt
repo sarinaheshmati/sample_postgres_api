@@ -46,3 +46,10 @@
 2022-01-05 16:07:33.501656: sarina1 was logged in.
 2022-01-05 16:13:20.235727: u1 made an account, password: p1.
 2022-01-05 16:29:04.330679: u2 made an account, password: p1.
+2022-01-29 13:29:45.565341: u3 made an account, password: p3.
+2022-01-29 13:29:45.565341: u3 tried to log in with wrong password.
+2022-01-29 13:51:32.652451: u3 made an account, password: p3.
+2022-01-29 13:51:32.652451: u3 was logged in.
+2022-01-29 13:51:32.652451: u3 was logged out.
+2022-01-29 13:51:32.652451: u3 changed its username to u4.
+2022-01-29 13:54:46.991986: u4 changed its username to u5.

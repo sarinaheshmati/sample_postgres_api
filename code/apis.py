@@ -67,11 +67,11 @@ def register():
     if okk == 0:
         logs.register(username=user, password=passw)
         with open("files/users.txt", "a+") as fi:
-            fi.write(f"{user} {passw}\n")
+            fi.write(f"{user} {passw} 0\n")
         return responses.register('ok', f"your account has been successfully made")
 
 
-@app.route("/edit", methods=["PUT"])
+@app.route("/edit", methods=["PATCH"])
 def edit():
     user_old = request.form['username']
     passw_old = request.form['password']
@@ -84,7 +84,7 @@ def edit():
         s = x.split(" ")
         if s[0] == user_old:
             if s[1] == passw_old:
-                all_users[i] = f'{user_new} {passw_old} 0\n'
+                all_users[i] = f'{user_new} {passw_new} 0\n'
                 with open('files/users.txt', 'w') as f:
                     f.writelines(all_users)
                 logs.edit(username=user_old, newusername=user_new)
