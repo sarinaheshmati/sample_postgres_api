@@ -81,6 +81,7 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+*.pyc
 
 # Code Injection
 #
@@ -88,6 +89,7 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 .DS_Store
 /env
+
 
 
 iOSInjectionProject/
