@@ -1,1 +1,0 @@
-DATABASE_URI = 'postgresql://macbook:mypass@localhost:5432/my_database_name'

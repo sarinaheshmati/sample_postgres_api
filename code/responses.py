@@ -30,6 +30,7 @@ def edit(type, message):
     return {'code': {
         'ok': 4000,
         'wrong_password': 4001,
+        'exist_user': 4003,
         'no_user': 4002,
         'required_inputs': 4005
     }[type], 'message': message}

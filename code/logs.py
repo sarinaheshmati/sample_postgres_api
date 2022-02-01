@@ -1,41 +1,97 @@
+from distutils.log import Log
+from re import T
+from sqlalchemy import create_engine, select
+from models import Base
+from config import DATABASE_URI
+import sqlalchemy as db
+from models import Users, Logs
 import datetime
+import crud
 
 x = datetime.datetime.now()
 
+engine = create_engine(DATABASE_URI)
 
-def login(username):
-    with open("files/logs.txt", "a+") as f:
-        f.write(f"{x}: {username} was logged in.\n")
+Base.metadata.create_all(engine)
 
-
-def logout(username):
-    with open("files/logs.txt", "a+") as f:
-        f.write(f"{x}: {username} was logged out.\n")
-    # with open('files/users.txt', "a+") as h:
-    #     for z in h:
-    #         s = z.split(" ")
-    #         h.write(s[2] == 0)
+connection = engine.connect()
 
 
-def try_login(username):
-    with open("files/logs.txt", "a+") as f:
-        f.write(f"{x}: {username} tried to log in with wrong password.\n")
+def login_success(old_user):
+    result = crud.get_query(Users, Users.username == old_user)
+    query = db.insert(Logs)
+    values_list = [{'user_id':result.id , 'action': 'login', 'status': True,
+                    'type': 'user', 'timestamp': x}]
+    results = connection.execute(query, values_list)
 
 
-def no_login(username, password):
-    with open("files/logs.txt", "a+") as f:
-        f.write(f"{x}: attack was detected by {username}, {password}.\n")
+def login_fail_wp(old_user):
+    result = crud.get_query(Users, Users.username == old_user)
+    query = db.insert(Logs)
+    values_list = [{'user_id':result.id , 'action': 'login', 'status': False,
+                    'description': 'wrong password', 'type': 'user', 'timestamp': x}]
+    results = connection.execute(query, values_list)
 
 
-def register(username, password):
-    with open("files/logs.txt", "a+") as f:
-        f.write(f"{x}: {username} made an account, password: {password}.\n")
+def login_fail_dne(old_user):
+    result = crud.get_query(Users, Users.username == old_user)
+    query = db.insert(Logs)
+    values_list = [{'user_id':result.id , 'action': 'login', 'status': False,
+                    'description': 'user does not exist', 'type': 'user', 'timestamp': x}]
+    results = connection.execute(query, values_list)
 
 
-def register_denied(username):
-    with open("files/logs.txt", "a+") as f:
-        f.write(f"{x}: {username} registery was denied, the account already exists.\n")
+def logout(old_user):
+    result = crud.get_query(Users, Users.username == old_user)
+    query = db.insert(Logs)
+    values_list = [{'user_id':result.id , 'action': 'logout', 'status': True,
+                    'type': 'user', 'timestamp': x}]
+    results = connection.execute(query, values_list)
 
-def edit(username, newusername):
-   with open("files/logs.txt", "a+") as f:
-        f.write(f"{x}: {username} changed its username to {newusername}.\n")
+
+def register_fail(old_user):
+    result = crud.get_query(Users, Users.username == old_user)
+    query = db.insert(Logs)
+    values_list = [{'user_id':result.id , 'action': 'register', 'status': False,
+                    'description': 'username or password is taken', 'type': 'user', 'timestamp': x}]
+    results = connection.execute(query, values_list)
+
+
+def register_success(old_user):
+    result = crud.get_query(Users, Users.username == old_user)
+    query = db.insert(Logs)
+    values_list = [{'user_id':result.id , 'action': 'register', 'status': True,
+                    'type': 'user', 'timestamp': x}]
+    results = connection.execute(query, values_list)
+
+
+def edit_success(old_user):
+    result = crud.get_query(Users, Users.username == old_user)
+    query = db.insert(Logs)
+    values_list = [{'user_id':result.id , 'action': 'edit', 'status': True,
+                    'type': 'user', 'timestamp': x}]
+    results = connection.execute(query, values_list)
+
+
+def edit_fail_wp(old_user):
+    result = crud.get_query(Users, Users.username == old_user)
+    query = db.insert(Logs)
+    values_list = [{'user_id':result.id , 'action': 'edit', 'status': False,
+                    'description': 'wrong password', 'type': 'user', 'timestamp': x}]
+    results = connection.execute(query, values_list)
+
+
+def edit_fail_dne(old_user):
+    result = crud.get_query(Users, Users.username == old_user)
+    query = db.insert(Logs)
+    values_list = [{'user_id':result.id , 'action': 'edit', 'status': False,
+                   'description': 'user does not exist', 'type': 'user', 'timestamp': x}]
+    results = connection.execute(query, values_list)
+
+
+def edit_fail_ue(old_user):
+    result = crud.get_query(Users, Users.username == old_user)
+    query = db.insert(Logs)
+    values_list = [{'user_id':result.id , 'action': 'edit', 'status': False,
+                    'description': 'new username is taken', 'type': 'user', 'timestamp': x}]
+    results = connection.execute(query, values_list)
