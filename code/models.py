@@ -20,11 +20,11 @@ class Users(Base):
 class Logs(Base):
     __tablename__ = 'Logs'
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey(Users.id), nullable=False)
+    user_id = Column(Integer, ForeignKey(Users.id), nullable=True)
     action = Column(String, nullable=False)
     status = Column(Boolean, nullable=False)
     description = Column(String, nullable=False)
-    type = Column(String, nullable=False)
+    type = Column(String, nullable=False, default='user')
     timestamp = Column(DateTime, nullable=False)
 
     def __repr__(self):

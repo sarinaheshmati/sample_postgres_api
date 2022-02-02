@@ -26,20 +26,24 @@ def get_query(table_name, where_clause):
     return query.fetchone()
 
 
-def update_login(old_user):
+def update_login(username):
     query = db.update(Users).values(status=True)
-    query = query.where(Users.username == old_user)
+    query = query.where(Users.username == username)
     results = connection.execute(query)
 
 
-def update_logout(old_user):
+def update_logout(username):
     query = db.update(Users).values(status=False)
-    query = query.where(Users.username == old_user)
+    query = query.where(Users.username == username)
     results = connection.execute(query)
 
 
-def update_edit(old_user, new_user, new_passw):
-    query = db.update(Users).values(username=new_user, password=new_passw)
+def update_edit_np(old_user, new_user):
+    query = db.update(Users).values(username=new_user)
     query = query.where(Users.username == old_user)
     results = connection.execute(query)
 
+def update_edit_p(username, new_passw):
+    query = db.update(Users).values(password=new_passw)
+    query = query.where(Users.username == username)
+    results = connection.execute(query)

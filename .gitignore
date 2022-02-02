@@ -93,3 +93,5 @@ fastlane/test_output
 
 
 iOSInjectionProject/
+
+passwords.py
